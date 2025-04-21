@@ -3,6 +3,7 @@ import { getPayload } from "payload";
 
 import { Category } from "@/payload-types";
 
+import { CustomCategory } from "./types";
 import { Navbar } from "./navbar";
 import { Footer } from "./footer";
 import { SearchFilters } from "./search-filters";
@@ -18,9 +19,10 @@ const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
         exists: false,
       },
     },
+    sort: "name",
   });
 
-  const formattedData = data.docs.map((doc) => ({
+  const formattedData: CustomCategory[] = data.docs.map((doc) => ({
     ...doc,
     subcategories: (doc.subcategories?.docs ?? []).map((sub) => ({
       // "sub" will be of type Category as long as depth is 1 or greater, even if typescript says otherwise

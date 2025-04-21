@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "generate:types": "payload generate:types",
-    "db:fresh": "payload migrate:fresh"
+    "db:fresh": "payload migrate:fresh",
+    "db:seed": "bun run src/seed.ts"
   },
   "type": "module",
   "dependencies": {

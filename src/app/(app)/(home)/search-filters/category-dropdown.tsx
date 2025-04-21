@@ -1,16 +1,17 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Category } from "@/payload-types";
+import { CustomCategory } from "@/app/(app)/(home)/types";
 
 import { useDropdownPosition } from "./use-dropdown-position";
 import { SubcategoryMenu } from "./subcategory-menu";
 
 interface CategoryDropdownProps {
-  category: Category;
+  category: CustomCategory;
   isActive?: boolean;
   isNavigationHovered?: boolean;
 }
@@ -34,6 +35,12 @@ export const CategoryDropdown = ({
     setIsOpen(false);
   };
 
+  const toggleDropdown = () => {
+    if (category.subcategories && category.subcategories.length > 0) {
+      setIsOpen(!isOpen);
+    }
+  };
+
   const dropdownPosition = getDropdownPosition();
 
   return (
@@ -41,6 +48,7 @@ export const CategoryDropdown = ({
       ref={dropdownRef}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onClick={toggleDropdown}
       className="relative"
     >
       <div className="relative">
@@ -49,9 +57,12 @@ export const CategoryDropdown = ({
           className={cn(
             "hover:border-primary h-11 rounded-full border-transparent bg-transparent px-4 text-black hover:bg-white",
             isActive && !isNavigationHovered && "border-primary bg-white",
+            isOpen && "border-primary bg-white",
           )}
         >
-          {category.name}
+          <Link href={`/${category.slug === "all" ? "" : category.slug}`}>
+            {category.name}
+          </Link>
         </Button>
         {category.subcategories && category.subcategories.length > 0 && (
           <div

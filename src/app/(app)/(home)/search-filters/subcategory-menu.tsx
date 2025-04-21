@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import { Category } from "@/payload-types";
+import { CustomCategory } from "@/app/(app)/(home)/types";
 
 interface SubcategoryMenuProps {
-  category: Category;
+  category: CustomCategory;
   isOpen: boolean;
   position: { top: number; left: number };
 }
@@ -35,10 +35,10 @@ export const SubcategoryMenu = ({
         style={{ backgroundColor }}
       >
         <div>
-          {category.subcategories.map((subcategory: Category) => (
+          {category.subcategories.map((subcategory) => (
             <Link
               key={subcategory.slug}
-              href="/"
+              href={`/${category.slug}/${subcategory.slug}`}
               className="flex w-full items-center justify-between p-4 text-left font-medium underline hover:bg-black hover:text-white"
             >
               {subcategory.name}
