@@ -1,34 +1,37 @@
 import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 
-import { CustomCategory } from "@/app/(app)/(home)/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
+import { useTRPC } from "@/trpc/client";
+import type {
+  CategoryGetManyOutput,
+  CategoryGetManyOutputSingle,
+} from "@/modules/categories/types";
 
 interface CategoriesSidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  data: CustomCategory[];
 }
 
 export const CategoriesSidebar = ({
   open,
   onOpenChange,
-  data,
 }: CategoriesSidebarProps) => {
-  const [parentCategories, setParentCategories] = useState<
-    CustomCategory[] | null
-  >(null);
+  const [parentCategories, setParentCategories] =
+    useState<CategoryGetManyOutput | null>(null);
   const [selectedCategory, setSelectedCategory] =
-    useState<CustomCategory | null>(null);
+    useState<CategoryGetManyOutputSingle | null>(null);
   const router = useRouter();
+  const trpc = useTRPC();
+  const { data } = useQuery(trpc.categories.getMany.queryOptions());
 
   // if there is a parent category, show the children, otherwise show root categories
   const currentCategories = parentCategories ?? data ?? [];
@@ -39,9 +42,11 @@ export const CategoriesSidebar = ({
     onOpenChange(open);
   };
 
-  const handleCategoryClick = (category: CustomCategory) => {
+  const handleCategoryClick = (category: CategoryGetManyOutputSingle) => {
     if (category.subcategories && category.subcategories.length > 0) {
-      setParentCategories(category.subcategories as CustomCategory[]);
+      setParentCategories(
+        category.subcategories as CategoryGetManyOutputSingle[],
+      );
       setSelectedCategory(category);
     } else {
       if (parentCategories && selectedCategory) {

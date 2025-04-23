@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import { CustomCategory } from "@/app/(app)/(home)/types";
+import type { CategoryGetManyOutputSingle } from "@/modules/categories/types";
 
 interface SubcategoryMenuProps {
-  category: CustomCategory;
+  category: CategoryGetManyOutputSingle;
   isOpen: boolean;
   position: { top: number; left: number };
 }
