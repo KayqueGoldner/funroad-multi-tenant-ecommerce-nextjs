@@ -24,3 +24,5 @@ export const HydrateClient = ({ children }: { children: React.ReactNode }) => {
     </HydrationBoundary>
   );
 };
+
+export const caller = appRouter.createCaller(createTRPCContext);
