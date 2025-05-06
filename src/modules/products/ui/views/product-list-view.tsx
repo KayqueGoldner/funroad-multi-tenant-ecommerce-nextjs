@@ -6,9 +6,15 @@ import { ProductSort } from "../components/product-sort";
 
 interface ProductListViewProps {
   category?: string;
+  tenantSlug?: string;
+  narrowView?: boolean;
 }
 
-export const ProductListView = ({ category }: ProductListViewProps) => {
+export const ProductListView = ({
+  category,
+  tenantSlug,
+  narrowView = false,
+}: ProductListViewProps) => {
   return (
     <div className="flex flex-col gap-4 px-4 py-8 lg:px-12">
       <div className="flex flex-col justify-between gap-y-2 lg:flex-row lg:items-center lg:gap-y-0">
@@ -21,8 +27,12 @@ export const ProductListView = ({ category }: ProductListViewProps) => {
           <ProductFilters />
         </div>
         <div className="lg:col-span-4 xl:col-span-6">
-          <Suspense fallback={<ProductListSkeleton />}>
-            <ProductList category={category} />
+          <Suspense fallback={<ProductListSkeleton narrowView={narrowView} />}>
+            <ProductList
+              category={category}
+              tenantSlug={tenantSlug}
+              narrowView={narrowView}
+            />
           </Suspense>
         </div>
       </div>
