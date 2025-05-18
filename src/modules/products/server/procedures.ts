@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { Sort, Where } from "payload";
+import { headers as getHeaders } from "next/headers";
 
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { CategoryGetManyOutputSingle } from "@/modules/categories/types";
@@ -122,14 +123,36 @@ export const productsRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      const headers = await getHeaders();
+      const session = await ctx.payload.auth({ headers });
+
       const product = await ctx.payload.findByID({
         collection: "products",
         id: input.id,
         depth: 2,
       });
 
+      let isPurchased = false;
+
+      if (session.user) {
+        const ordersData = await ctx.payload.find({
+          collection: "orders",
+          pagination: false,
+          limit: 1,
+          where: {
+            and: [
+              { product: { equals: input.id } },
+              { user: { equals: session.user.id } },
+            ],
+          },
+        });
+
+        isPurchased = ordersData.totalDocs > 0;
+      }
+
       return {
         ...product,
+        isPurchased,
         image: product.image as Media | null,
         tenant: product.tenant as Tenant & { image: Media | null },
       };
