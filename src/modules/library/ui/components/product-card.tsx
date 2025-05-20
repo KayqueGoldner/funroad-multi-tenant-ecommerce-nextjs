@@ -24,7 +24,7 @@ export const ProductCard = ({
   reviewCount,
 }: ProductCardProps) => {
   return (
-    <Link href={`/library/${id}`}>
+    <Link prefetch href={`/library/${id}`}>
       <div className="flex h-full flex-col overflow-hidden rounded-md border bg-white transition-shadow hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
         <div className="relative aspect-square">
           <Image
