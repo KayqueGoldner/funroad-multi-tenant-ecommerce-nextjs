@@ -153,3 +153,24 @@ export const ReviewForm = ({ productId, initialData }: ReviewFormProps) => {
     </Form>
   );
 };
+
+export const ReviewFormSkeleton = () => {
+  return (
+    <div>
+      <div className="flex flex-col gap-y-4">
+        <p className="font-medium">Liked it? Give it a rating</p>
+      </div>
+      <StarPicker disabled />
+      <Textarea placeholder="Want to leave a written review?" disabled />
+      <Button
+        type="button"
+        variant="elevated"
+        size="lg"
+        className="hover:text-primary w-fit bg-black text-white hover:bg-pink-400"
+        disabled
+      >
+        Post review
+      </Button>
+    </div>
+  );
+};
