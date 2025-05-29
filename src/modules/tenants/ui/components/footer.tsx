@@ -14,7 +14,7 @@ export const Footer = () => {
     <footer className="border-t bg-white font-medium">
       <div className="mx-auto flex h-full max-w-(--breakpoint-xl) items-center gap-2 px-4 py-6 lg:px-12">
         <p>Powered by</p>
-        <Link href="/">
+        <Link href={process.env.NEXT_PUBLIC_APP_URL!}>
           <span className={cn("text-2xl", poppins.className)}>funroad</span>
         </Link>
       </div>
