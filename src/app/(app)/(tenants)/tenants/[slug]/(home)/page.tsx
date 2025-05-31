@@ -6,6 +6,8 @@ import { DEFAULT_LIMIT } from "@/constants";
 import { ProductListView } from "@/modules/products/ui/views/product-list-view";
 import { loadProductFilters } from "@/modules/products/search-params";
 
+export const dynamic = "force-dynamic";
+
 interface TenantsSlugPageProps {
   params: Promise<{
     slug: string;
